@@ -1,8 +1,14 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function DishListItem({ dish }) {
+  const navigation = useNavigation();
+  function onPress() {
+    navigation.navigate("Dish", { id: dish.id });
+  }
+
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPress}>
       <View style={{ flex: 1 }}>
         <Text style={styles.name}>{dish.name}</Text>
         <Text style={styles.description} numberOfLines={2}>
@@ -13,7 +19,7 @@ export default function DishListItem({ dish }) {
       {dish.image && (
         <Image source={{ uri: dish.image }} style={styles.image} />
       )}
-    </View>
+    </Pressable>
   );
 }
 
