@@ -6,8 +6,10 @@ import HomeScreen from "../screens/HomeScreen";
 import OrderDetails from "../screens/OrderDetails";
 import OrderScreen from "../screens/OrderScreen";
 import RestaurantDetailsScreen from "../screens/RestaurantDetailsScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 const Stack = createNativeStackNavigator();
 
@@ -46,17 +48,18 @@ HomeTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Orders"
+        name="OrdersTab"
         component={OrdersStackNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="list-alt" size={24} color={color} />
           ),
+          tabBarLabel: "Orders",
         }}
       />
       <Tab.Screen
         name="Profile"
-        component={OrderScreen}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="user-alt" size={24} color={color} />
@@ -73,7 +76,11 @@ const HomeStackNavigator = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Restaurants" component={HomeScreen} />
-      <HomeStack.Screen name="Restaurant" component={RestaurantDetailsScreen} />
+      <HomeStack.Screen
+        name="Restaurant"
+        component={RestaurantDetailsScreen}
+        options={{ headerShown: false }}
+      />
       <HomeStack.Screen name="Dish" component={DishDetailsScreen} />
       <HomeStack.Screen name="Basket" component={Basket} />
     </HomeStack.Navigator>
