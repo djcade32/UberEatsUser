@@ -9,26 +9,26 @@ import RestaurantDetailsScreen from "../screens/RestaurantDetailsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
-
+import { useAuthContext } from "../contexts/AuthContext";
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
+  const { dbUser } = useAuthContext();
+
   return (
     <Stack.Navigator
       initialRouteName="HomeTabs"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen
-        name="HomeTabs"
-        component={HomeTabs}
-        options={{ headerTitle: "Home" }}
-      />
-      <Stack.Screen
-        name="Restaurant"
-        component={RestaurantDetailsScreen}
-        options={{ headerShown: false }}
-      />
+      {dbUser ? (
+        <Stack.Screen
+          name="HomeTabs"
+          component={HomeTabs}
+          options={{ headerTitle: "Home" }}
+        />
+      ) : (
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+      )}
     </Stack.Navigator>
   );
 }

@@ -1,10 +1,18 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import restaurants from "../../../assets/data/restaurants.json";
+import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
 import BasketDishItem from "../../components/BasketDishItem";
-
-const restaurant = restaurants[0];
+import { useBasketContext } from "../../contexts/BasketContext";
+import { useOrderContext } from "../../contexts/OrderContext";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Basket() {
+  const { restaurant, basketDishes, totalPrice } = useBasketContext();
+  const { createOrder } = useOrderContext();
+  const navigation = useNavigation();
+
+  async function onCreateOrder() {
+    await createOrder();
+    navigation.navigate("Home");
+  }
   return (
     <View style={styles.page}>
       <Text style={styles.name}>{restaurant.name}</Text>
@@ -13,13 +21,15 @@ export default function Basket() {
       </Text>
       <View style={styles.separator}></View>
       <FlatList
-        data={restaurant.dishes}
+        data={basketDishes}
         renderItem={({ item }) => <BasketDishItem basketDish={item} />}
       />
 
-      <View style={styles.button}>
-        <Text style={styles.buttonText}>Create order</Text>
-      </View>
+      <Pressable style={styles.button} onPress={onCreateOrder}>
+        <Text style={styles.buttonText}>
+          Create order • ${totalPrice.toFixed(2)}
+        </Text>
+      </Pressable>
     </View>
   );
 }
