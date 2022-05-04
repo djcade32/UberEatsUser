@@ -11,7 +11,7 @@ export default function Basket() {
 
   async function onCreateOrder() {
     await createOrder();
-    navigation.navigate("Home");
+    navigation.navigate("Restaurants");
   }
   return (
     <View style={styles.page}>
